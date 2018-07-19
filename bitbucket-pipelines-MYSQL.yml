@@ -1,0 +1,31 @@
+image: php:7.2
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - composer
+        script:
+          - apt-get update && apt-get install -y unzip libicu-dev libxml2-dev libpng-dev libzip-dev
+          - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+          - docker-php-ext-configure intl && docker-php-ext-install intl
+          - docker-php-ext-configure simplexml && docker-php-ext-install simplexml
+          - docker-php-ext-configure mbstring && docker-php-ext-install mbstring
+          - docker-php-ext-configure gd && docker-php-ext-install gd
+          - docker-php-ext-configure zip && docker-php-ext-install zip
+          - docker-php-ext-configure pdo && docker-php-ext-install pdo
+          - docker-php-ext-configure pdo_mysql && docker-php-ext-install pdo_mysql
+          - composer install
+          - vendor/bin/phpunit
+        services:
+          - mysql
+
+definitions:
+  services:
+    mysql:
+      image: mysql:5.7
+      environment:
+        MYSQL_DATABASE: 'cakephp_test'
+        MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+        MYSQL_USER: 'dev'
+        MYSQL_PASSWORD: 'dev'
