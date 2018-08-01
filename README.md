@@ -1,6 +1,6 @@
 # CakePHP 3 Bitbucket Pipelines examples
 
-Examples for CakePHP 3 projekts for Bitbusket pipelines.
+Examples for CakePHP 3 projects for Bitbucket pipelines.
 
 I am not a docker expert, so any suggestion are welcome :) I am pretty sure, this is just a working solution but far from optional.
 
